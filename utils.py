@@ -23,6 +23,7 @@ utils.py
 ## Necessary Packages
 import numpy as np
 import tensorflow as tf
+import data_loading as dl
 
 
 def train_test_divide (data_x, data_x_hat, data_t, data_t_hat, train_rate = 0.8):
@@ -73,8 +74,8 @@ def extract_time (data):
   time = list()
   max_seq_len = 0
   for i in range(len(data)):
-    max_seq_len = max(max_seq_len, len(data[i][:,0]))
-    time.append(len(data[i][:,0]))
+    max_seq_len = max(max_seq_len, len(data[i][:, 0]))
+    time.append(len(data[i][:, 0]))
     
   return time, max_seq_len
 
@@ -143,3 +144,9 @@ def batch_generator(data, time, batch_size):
   T_mb = list(time[i] for i in train_idx)
   
   return X_mb, T_mb
+
+
+# ori_data = np.loadtxt('data/tester_2.csv', delimiter = ",",skiprows = 1)
+# ori_data = dl.real_data_loading('tester', 1)
+# t, seq_len = extract_time(ori_data)
+# print(-1)

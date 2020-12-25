@@ -62,7 +62,7 @@ def main (args):
     - metric_results: discriminative and predictive scores
   """
   ## Data loading
-  if args.data_name in ['stock', 'energy','tester']:
+  if args.data_name in ['stock', 'energy','telecomm']:
     ori_data, dat_min, dat_max = real_data_loading(args.data_name, args.seq_len)
   elif args.data_name == 'sine':
     # Set number of samples and its dimensions
@@ -84,7 +84,7 @@ def main (args):
   denorm_gen_data = denormalizer(dat_max, dat_min, generated_data, columns=['internet', 'tweets',
                                                                             'coverage', 'conditions', 'From Milan',
                                                                             'To Milan', 'Days', 'Hours', 'dayofyear'])
-  denorm_gen_data.to_csv('denorm_internet4259wk1().csv')
+  denorm_gen_data.to_csv('denorm_internet_base.csv')
   print('Finish Synthetic Data Generation')
   
   ## Performance metrics   
@@ -114,7 +114,7 @@ def main (args):
   ## Print discriminative and predictive scores
   print(metric_results)
 
-  return ori_data, generated_data, metric_results
+  return ori_data, generated_data, metric_results, denorm_gen_data
 
 
 if __name__ == '__main__':  
@@ -123,8 +123,8 @@ if __name__ == '__main__':
   parser = argparse.ArgumentParser()
   parser.add_argument(
       '--data_name',
-      choices=['sine','stock','energy'],
-      default='stock',
+      choices=['sine','stock','energy', 'telecomm'],
+      default='telecomm',
       type=str)
   parser.add_argument(
       '--seq_len',
@@ -149,7 +149,7 @@ if __name__ == '__main__':
   parser.add_argument(
       '--iteration',
       help='Training iterations (should be optimized)',
-      default=50000,
+      default=10000,
       type=int)
   parser.add_argument(
       '--batch_size',
@@ -165,4 +165,4 @@ if __name__ == '__main__':
   args = parser.parse_args() 
   
   # Calls main function  
-  ori_data, generated_data, metrics = main(args)
+  ori_data, generated_data, metrics, denormalized_data = main(args)

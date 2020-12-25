@@ -89,14 +89,15 @@ def real_data_loading (data_name, seq_len):
   Returns:
     - data: preprocessed data.
   """  
-  assert data_name in ['stock','energy','tester']
+  assert data_name in ['stock','energy','telecomm']
   
   if data_name == 'stock':
     ori_data = np.loadtxt('data/stock_data.csv', delimiter = ",",skiprows = 1)
   elif data_name == 'energy':
     ori_data = np.loadtxt('data/energy_data.csv', delimiter = ",",skiprows = 1)
-  elif data_name == 'tester':
-    ori_data = np.loadtxt('data/toydata.csv', delimiter = ",",skiprows = 1, usecols=[1,2])
+  elif data_name == 'telecomm':
+    ori_data = np.loadtxt('data/internet4259_wk1.csv', delimiter = ",",skiprows = 1, usecols=[1, 2, 3, 4, 5, 6, 7,
+                                                                                              8, 9])
         
   # Flip the data to make chronological data
   ori_data = ori_data[::-1]
@@ -118,11 +119,4 @@ def real_data_loading (data_name, seq_len):
   data = []
   for i in range(len(temp_data)):
     data.append(temp_data[idx[i]])
-  print('Mixed data:', data)
   return data, dat_min, dat_max
-
-
-# if __name__ == '__main__':
-#   test = real_data_loading('tester', 1)
-#   print(len(test))
-#   print(-1)

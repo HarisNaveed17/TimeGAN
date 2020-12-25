@@ -25,6 +25,7 @@ main_timegan.py
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
+from utils import denormalizer
 
 import argparse
 import numpy as np
@@ -62,7 +63,7 @@ def main (args):
   """
   ## Data loading
   if args.data_name in ['stock', 'energy','tester']:
-    ori_data = real_data_loading(args.data_name, args.seq_len)
+    ori_data, dat_min, dat_max = real_data_loading(args.data_name, args.seq_len)
   elif args.data_name == 'sine':
     # Set number of samples and its dimensions
     no, dim = 10000, 5
@@ -79,7 +80,11 @@ def main (args):
   parameters['iterations'] = args.iteration
   parameters['batch_size'] = args.batch_size
       
-  generated_data = timegan(ori_data, parameters)   
+  generated_data = timegan(ori_data, parameters)
+  denorm_gen_data = denormalizer(dat_max, dat_min, generated_data, columns=['internet', 'tweets',
+                                                                            'coverage', 'conditions', 'From Milan',
+                                                                            'To Milan', 'Days', 'Hours', 'dayofyear'])
+  denorm_gen_data.to_csv('denorm_internet4259wk1().csv')
   print('Finish Synthetic Data Generation')
   
   ## Performance metrics   

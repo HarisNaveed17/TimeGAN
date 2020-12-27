@@ -212,6 +212,7 @@ def timegan (ori_data, parameters):
 
     G_loss_V = G_loss_V1 + G_loss_V2
 
+
   # 4. Summation
   with tf.device('/gpu:0'):
     G_loss = G_loss_U + gamma * G_loss_U_e + 100 * tf.sqrt(G_loss_S) + 100*G_loss_V

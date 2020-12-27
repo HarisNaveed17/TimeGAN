@@ -217,11 +217,12 @@ def timegan (ori_data, parameters):
   E_loss = E_loss0  + 0.1*G_loss_S
 
   # optimizer
-  E0_solver = tf.train.AdamOptimizer().minimize(E_loss0, var_list = e_vars + r_vars)
-  E_solver = tf.train.AdamOptimizer().minimize(E_loss, var_list = e_vars + r_vars)
-  D_solver = tf.train.AdamOptimizer().minimize(D_loss, var_list = d_vars)
-  G_solver = tf.train.AdamOptimizer().minimize(G_loss, var_list = g_vars + s_vars)
-  GS_solver = tf.train.AdamOptimizer().minimize(G_loss_S, var_list = g_vars + s_vars)
+  with tf.device('/gpu:0'):
+    E0_solver = tf.train.AdamOptimizer().minimize(E_loss0, var_list = e_vars + r_vars)
+    E_solver = tf.train.AdamOptimizer().minimize(E_loss, var_list = e_vars + r_vars)
+    D_solver = tf.train.AdamOptimizer().minimize(D_loss, var_list = d_vars)
+    G_solver = tf.train.AdamOptimizer().minimize(G_loss, var_list = g_vars + s_vars)
+    GS_solver = tf.train.AdamOptimizer().minimize(G_loss_S, var_list = g_vars + s_vars)
 
   ## TimeGAN training
   sess = tf.Session()

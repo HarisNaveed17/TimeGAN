@@ -197,7 +197,6 @@ def timegan (ori_data, parameters):
 
   # Generator loss
   # 1. Adversarial loss
-  with tf.device('/gpu:0'):
     G_loss_U = tf.losses.sigmoid_cross_entropy(tf.ones_like(Y_fake), Y_fake)
     G_loss_U_e = tf.losses.sigmoid_cross_entropy(tf.ones_like(Y_fake_e), Y_fake_e)
 

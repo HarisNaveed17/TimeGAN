@@ -83,8 +83,9 @@ def main (args):
   generated_data = timegan(ori_data, parameters)
   denorm_gen_data = denormalizer(dat_max, dat_min, generated_data, columns=['internet', 'tweets',
                                                                             'coverage', 'conditions', 'From Milan',
-                                                                            'To Milan', 'Days', 'Hours', 'dayofyear'])
-  denorm_gen_data.to_csv('denorm_internet_base.csv')
+                                                                            'To Milan', 'strength', 'Days', 'Hours',
+                                                                            'dayofyear'])
+  denorm_gen_data.to_csv('denorm_internet_gru6.csv')
   print('Finish Synthetic Data Generation')
   
   ## Performance metrics   
@@ -139,7 +140,7 @@ if __name__ == '__main__':
   parser.add_argument(
       '--hidden_dim',
       help='hidden state dimensions (should be optimized)',
-      default=24,
+      default=28,
       type=int)
   parser.add_argument(
       '--num_layer',
@@ -149,17 +150,17 @@ if __name__ == '__main__':
   parser.add_argument(
       '--iteration',
       help='Training iterations (should be optimized)',
-      default=10000,
+      default=12000,
       type=int)
   parser.add_argument(
       '--batch_size',
       help='the number of samples in mini-batch (should be optimized)',
-      default=128,
+      default=256,
       type=int)
   parser.add_argument(
       '--metric_iteration',
       help='iterations of the metric computation',
-      default=10,
+      default=15,
       type=int)
   
   args = parser.parse_args() 

@@ -96,8 +96,8 @@ def real_data_loading (data_name, seq_len):
   elif data_name == 'energy':
     ori_data = np.loadtxt('data/energy_data.csv', delimiter = ",",skiprows = 1)
   elif data_name == 'telecomm':
-    ori_data = np.loadtxt('data/internet4259_wk1.csv', delimiter = ",",skiprows = 1, usecols=[1, 2, 3, 4, 5, 6, 7,
-                                                                                              8, 9])
+    ori_data = np.loadtxt('data/internet4259_wk1_final.csv', delimiter = ",",skiprows = 1, usecols=[1, 2, 3, 4, 5, 6, 7,
+                                                                                              8, 9, 10])
         
   # Flip the data to make chronological data
   ori_data = ori_data[::-1]

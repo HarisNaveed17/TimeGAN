@@ -7,7 +7,7 @@ from scipy import stats
 
 # file_size = input('Single or file sequence:')
 # if file_size == 'single':
-data = pd.read_csv(f'denorm_internet4259wk1().csv', usecols=[1, 2, 3, 4, 5, 6, 7, 8, 9])
+data = pd.read_csv(f'denorm_internet_gru5.csv', usecols=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
 
 # for j in range(1, 2):
 #     path = f'/home/haris/TimeGAN/generated data/Week_{j}/lstm24'
@@ -18,7 +18,7 @@ data = pd.read_csv(f'denorm_internet4259wk1().csv', usecols=[1, 2, 3, 4, 5, 6, 7
 #         data = data.append(df)
 data[['tweets', 'conditions', 'coverage', 'Days', 'Hours', 'dayofyear']] = data[['tweets',
                                                                                  'conditions', 'coverage', 'Days',
-                                                                                 'Hours', 'dayofyear']].round(decimals=1).astype(int)
+                                                                                 'Hours', 'dayofyear']].apply(np.rint).astype(int)
 # data[['tweets', 'conditions', 'coverage', 'Days']] = data[['tweets', 'conditions',
 #                                                            'coverage', 'Days']].apply(np.rint)
 # data['dayofyear_rounded'] = data['dayofyear'].apply(np.rint)
@@ -29,7 +29,7 @@ data[['tweets', 'conditions', 'coverage', 'Days', 'Hours', 'dayofyear']] = data[
 data.reset_index(drop=True, inplace=True)
 data['datetime'] = [pd.to_datetime(f"2013{j[0]} {j[1]}:00:00", format="%Y%j %H:%M:%S") for j in zip(data['dayofyear'], data['Hours'])]
 # data.sort_values('datetime', inplace=True)
-data_t = data.groupby('datetime').agg(np.mean)
+data_t = data.groupby('datetime').mean()
 
 real_dat = pd.read_csv('data/internet_timegan_4259_dates.csv', usecols=[2, 3, 4], parse_dates=['datetime'])
 real_dat = real_dat.assign(datetime=real_dat.datetime.dt.floor('H'))

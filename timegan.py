@@ -21,7 +21,7 @@ import tensorflow as tf
 import numpy as np
 from utils import extract_time, rnn_cell, random_generator, batch_generator
 
-
+print("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('GPU')))
 def timegan (ori_data, parameters):
   """TimeGAN function.
   

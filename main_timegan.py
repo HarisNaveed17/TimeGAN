@@ -83,9 +83,10 @@ def main (args):
   generated_data = timegan(ori_data, parameters)
   denorm_gen_data = denormalizer(dat_max, dat_min, generated_data, columns=['internet', 'tweets',
                                                                             'coverage', 'conditions', 'From Milan',
-                                                                            'To Milan', 'strength', 'Days', 'Hours',
+                                                                            'To Milan', 'interaction_strength', 'Days',
+                                                                            'Hours',
                                                                             'dayofyear'])
-  denorm_gen_data.to_csv('denorm_internet_gru6.csv')
+  denorm_gen_data.to_csv('denorm_internet4wks.csv')
   print('Finish Synthetic Data Generation')
   
   ## Performance metrics   

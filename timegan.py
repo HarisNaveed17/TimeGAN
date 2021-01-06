@@ -189,34 +189,34 @@ def timegan (ori_data, parameters):
   d_vars = [v for v in tf.trainable_variables() if v.name.startswith('discriminator')]
 
   # Discriminator loss
-  with tf.device('/gpu:0'):
-    D_loss_real = tf.losses.sigmoid_cross_entropy(tf.ones_like(Y_real), Y_real)
-    D_loss_fake = tf.losses.sigmoid_cross_entropy(tf.zeros_like(Y_fake), Y_fake)
-    D_loss_fake_e = tf.losses.sigmoid_cross_entropy(tf.zeros_like(Y_fake_e), Y_fake_e)
-    D_loss = D_loss_real + D_loss_fake + gamma * D_loss_fake_e
+
+  D_loss_real = tf.losses.sigmoid_cross_entropy(tf.ones_like(Y_real), Y_real)
+  D_loss_fake = tf.losses.sigmoid_cross_entropy(tf.zeros_like(Y_fake), Y_fake)
+  D_loss_fake_e = tf.losses.sigmoid_cross_entropy(tf.zeros_like(Y_fake_e), Y_fake_e)
+  D_loss = D_loss_real + D_loss_fake + gamma * D_loss_fake_e
 
   # Generator loss
   # 1. Adversarial loss
-    G_loss_U = tf.losses.sigmoid_cross_entropy(tf.ones_like(Y_fake), Y_fake)
-    G_loss_U_e = tf.losses.sigmoid_cross_entropy(tf.ones_like(Y_fake_e), Y_fake_e)
+  G_loss_U = tf.losses.sigmoid_cross_entropy(tf.ones_like(Y_fake), Y_fake)
+  G_loss_U_e = tf.losses.sigmoid_cross_entropy(tf.ones_like(Y_fake_e), Y_fake_e)
 
   # 2. Supervised loss
-    G_loss_S = tf.losses.mean_squared_error(H[:,1:,:], H_hat_supervise[:,:-1,:])
+  G_loss_S = tf.losses.mean_squared_error(H[:,1:,:], H_hat_supervise[:,:-1,:])
 
   # 3. Two Momments
-    G_loss_V1 = tf.reduce_mean(tf.abs(tf.sqrt(tf.nn.moments(X_hat,[0])[1] + 1e-6) - tf.sqrt(tf.nn.moments(X,[0])[1] + 1e-6)))
-    G_loss_V2 = tf.reduce_mean(tf.abs((tf.nn.moments(X_hat,[0])[0]) - (tf.nn.moments(X,[0])[0])))
+  G_loss_V1 = tf.reduce_mean(tf.abs(tf.sqrt(tf.nn.moments(X_hat,[0])[1] + 1e-6) - tf.sqrt(tf.nn.moments(X,[0])[1] + 1e-6)))
+  G_loss_V2 = tf.reduce_mean(tf.abs((tf.nn.moments(X_hat,[0])[0]) - (tf.nn.moments(X,[0])[0])))
 
-    G_loss_V = G_loss_V1 + G_loss_V2
+  G_loss_V = G_loss_V1 + G_loss_V2
 
 
   # 4. Summation
-    G_loss = G_loss_U + gamma * G_loss_U_e + 100 * tf.sqrt(G_loss_S) + 100*G_loss_V
+  G_loss = G_loss_U + gamma * G_loss_U_e + 100 * tf.sqrt(G_loss_S) + 100*G_loss_V
 
   # Embedder network loss
-    E_loss_T0 = tf.losses.mean_squared_error(X, X_tilde)
-    E_loss0 = 10*tf.sqrt(E_loss_T0)
-    E_loss = E_loss0  + 0.1*G_loss_S
+  E_loss_T0 = tf.losses.mean_squared_error(X, X_tilde)
+  E_loss0 = 10*tf.sqrt(E_loss_T0)
+  E_loss = E_loss0  + 0.1*G_loss_S
 
   # optimizer
 
